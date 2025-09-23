@@ -1,0 +1,14 @@
+src/
+example.js
+tsconfig.json
+.git/
+.gitignore
+node_modules/
+*.log
+.DS_Store
+.env*
+coverage/
+.nyc_output/
+.cache/
+*.tsbuildinfo
+project-context.md
