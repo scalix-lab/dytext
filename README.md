@@ -1,5 +1,8 @@
 # DyText
 
+[![npm version](https://badge.fury.io/js/dytext.svg)](https://badge.fury.io/js/dytext)
+[![npm downloads](https://img.shields.io/npm/dm/dytext.svg)](https://www.npmjs.com/package/dytext)
+
 A lightweight TypeScript library for content management in static websites with dotted path access and caching.
 
 ## Features
@@ -17,6 +20,71 @@ A lightweight TypeScript library for content management in static websites with 
 npm install dytext
 ```
 
+## Quick Start
+
+```typescript
+import { createClient } from 'dytext';
+
+// Initialize the client
+const client = createClient({
+  clientToken: 'your-client-token'
+});
+
+// Or use environment variable DYTEXT_TOKEN
+const client = createClient();
+
+// Get data using dotted path notation
+const data = await client.get('user.profile.name');
+console.log(data); // Hello from DyText! You requested: "user.profile.name"
+```
+
+### Utility Functions
+
+```typescript
+import { getByPath } from 'dytext';
+
+const data = {
+  user: {
+    profile: {
+      name: 'John Doe',
+      email: 'john@example.com'
+    }
+  }
+};
+
+const name = getByPath(data, 'user.profile.name');
+console.log(name); // 'John Doe'
+```
+
+## API Reference
+
+### `createClient(config?: DyTextConfig)`
+
+Creates a new DyText client instance.
+
+**Parameters:**
+- `config.clientToken` (optional): Your client authentication token. If not provided, will use `DYTEXT_TOKEN` environment variable.
+
+**Returns:** `DyTextClient`
+
+### `client.get(path: string)`
+
+Retrieves data using dotted path notation.
+
+**Parameters:**
+- `path`: Dotted path string (e.g., 'user.profile.name')
+
+**Returns:** `Promise<any>`
+
+### `getByPath(obj: any, path: string)`
+
+Utility function to extract values from objects using dotted paths.
+
+**Parameters:**
+- `obj`: Source object
+- `path`: Dotted path string
+
+**Returns:** `any`
 
 ## Development
 
@@ -30,6 +98,11 @@ npm run build
 # Watch for changes during development
 npm run dev
 ```
+
+## Links
+
+- [npm package](https://www.npmjs.com/package/dytext)
+- [GitHub repository](https://github.com/scalix-lab/dytext)
 
 ## License
 
