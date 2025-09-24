@@ -1,29 +1,45 @@
 // Handles initialization logic for the API service
 // Extendable for framework-specific bootstrapping
 
-import { getInitializationState, setInitialized } from '../state/state';
+import { isInitialized, setState, getState } from '../state/state';
 import { dytextCache } from '../state/cache';
+import { DyTextConfig } from '../utils/types';
+import { parseClientToken } from '../utils/common';
 
-export function initDytextService(options?: Record<string, any>) {
+export function initDytextService(dytextClientToken: string, config?: DyTextConfig) {
+  // Validate required token
+  if (!dytextClientToken || typeof dytextClientToken !== 'string') {
+    throw new Error('dytext_client_token is required and must be a string.');
+  }
+
   // Prevent multiple initializations
-  if (getInitializationState()) {
+  if (isInitialized()) {
     console.warn('DyText is already initialized. Ignoring subsequent initialization.');
-    return {
-      status: 'already-initialized',
-      options,
-    };
+    return defaultDytextState();
   }
 
   // Reset cache on initialization
   dytextCache.clear();
+
+  // Parse and validate client token
+  let parsedToken = parseClientToken(dytextClientToken);
   
-  // Mark as initialized
-  setInitialized();
+  // Mark as initialized with token and configuration
+  setState({
+    initialized: true,
+    dytextClientToken: dytextClientToken,
+    projectId: parsedToken.projectId,
+    token: parsedToken.token
+  });
   
-  // Placeholder for future extension (e.g., Express, Next.js, etc.)
-  // Currently does nothing, but can be used to set up middleware, logging, etc.
+  return defaultDytextState()
+}
+
+function defaultDytextState() {
   return {
-    status: 'initialized',
-    options,
+    initialized: getState().initialized,
+    dytextClientToken: getState().dytextClientToken,
+    projectId: getState().projectId,
+    token: getState().token
   };
 }

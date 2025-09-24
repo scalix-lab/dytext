@@ -1,38 +1,42 @@
 
-import fs from 'fs';
-import path from 'path';
+import { DYTEXT_API_ENDPOINT } from '../utils/constants';
+import { ensureInitialized, getState } from '../state/state';
 
 // Pure API service for dytext data
 export class DytextApiService {
-  private static getJsonData() {
-    const filePath = path.resolve(__dirname, '../../example.json');
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    return JSON.parse(raw);
-  }
+  // Get a specific model or all models from the real API
+  static async get(model: string) {
+    ensureInitialized();
+    const state = getState();
 
-  // Get a specific model or all models
-  static async get(model?: string) {
-    const data = DytextApiService.getJsonData();
-    if (!model || model === '*') {
-      // Return all models
-      return data;
-    }
-    // Search for model in both roots
-    if (data.e_commerce_platform[model]) {
-      return data.e_commerce_platform[model];
-    }
-    if (data.content_management_system[model]) {
-      return data.content_management_system[model];
-    }
-    return null;
-  }
+    const { dytextClientToken } = state;
 
-  // Simulate API route handler
-  static async handleApiRequest(req: { query: { model?: string } }) {
-    const { model } = req.query;
-    if (!model) return { error: 'Model not specified' };
-    const data = await DytextApiService.get(model);
-    if (!data) return { error: 'Model not found' };
-    return { data };
+    const url = `${DYTEXT_API_ENDPOINT}/${model.toString()}`;
+    
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-dytext-client-token': dytextClientToken || '',
+        },
+      });
+      
+      if (!response.ok) {
+        // Return undefined for 404 (not found) errors instead of throwing
+        if (response.status === 404) {
+          return undefined;
+        }
+
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      
+      return result.data || result;
+    } catch (error) {
+      console.error('DyText API Error:', error);
+      throw error;
+    }
   }
 }
