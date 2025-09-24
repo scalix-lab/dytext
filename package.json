@@ -19,7 +19,10 @@
   "scripts": {
     "build": "microbundle",
     "dev": "microbundle watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [
     "content-management",
@@ -31,10 +34,15 @@
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.1.3",
     "microbundle": "^0.15.1",
+    "ts-jest": "^29.4.4",
     "typescript": "^5.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "dlv": "^1.1.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scalix-lab/dytext"

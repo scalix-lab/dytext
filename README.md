@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/dytext.svg)](https://badge.fury.io/js/dytext)
 [![npm downloads](https://img.shields.io/npm/dm/dytext.svg)](https://www.npmjs.com/package/dytext)
+[![test coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/scalix-lab/dytext)
+[![tests](https://img.shields.io/badge/tests-19%2F19%20passing-brightgreen.svg)](https://github.com/scalix-lab/dytext)
 
 A lightweight TypeScript library for content management in static websites with dotted path access and caching.
 
@@ -18,6 +20,39 @@ A lightweight TypeScript library for content management in static websites with 
 
 ```bash
 npm install dytext
+```
+
+## Quick Start
+
+```typescript
+import { initDytext, getDytext } from 'dytext';
+
+// Initialize the library
+initDytext();
+
+// Fetch all data
+const allData = await getDytext('*');
+
+// Fetch specific model
+const productCatalog = await getDytext('product_catalog');
+
+// Fetch nested data with dotted paths
+const productName = await getDytext('product_catalog.fields.0.field_json.value');
+```
+
+## Development
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage
+npm run test:coverage
 ```
 
 ## Links
