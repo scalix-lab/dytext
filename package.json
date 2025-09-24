@@ -1,14 +1,14 @@
 {
   "name": "dytext",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple, powerful dynamic text management for modern web applications",
   "main": "dist/dytext.js",
   "module": "dist/dytext.esm.js",
-  "types": "dist/dytext.d.ts",
+  "types": "dist/index.d.ts",
   "source": "src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/dytext.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/dytext.esm.js",
       "require": "./dist/dytext.js"
     }
