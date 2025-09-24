@@ -11,5 +11,8 @@ class DytextProject(Document):
         This runs automatically before the document is inserted.
         It will generate a Dytext client token if it doesn't exist.
         """
-        if not self.dytext_client_token:
-            self.dytext_client_token = secrets.token_hex(32)
+        if not self.project_client_token:
+            self.project_client_token = secrets.token_hex(32)
+        if self.project_name:
+            unique_id = self.name or frappe.generate_hash(length=10)
+            self.name = f"{self.project_name}.{unique_id}"

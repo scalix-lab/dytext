@@ -8,8 +8,7 @@
   "project",
   "model_name",
   "description",
-  "tag",
-  "fields"
+  "tag"
  ],
  "fields": [
   {
@@ -28,12 +27,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "fields",
-   "fieldtype": "Table",
-   "label": "Fields",
-   "options": "Dytext Field"
-  },
-  {
    "fieldname": "description",
    "fieldtype": "Data",
    "label": "Description"
@@ -47,7 +40,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-24 13:22:29.137976",
+ "modified": "2025-09-24 17:25:08.462487",
  "modified_by": "Administrator",
  "module": "Dytext",
  "name": "Dytext Model",

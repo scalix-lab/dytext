@@ -1,12 +1,13 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "Prompt",
  "creation": "2025-09-24 13:00:37.215242",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "project_name",
-  "dytext_project_token"
+  "project_client_token"
  ],
  "fields": [
   {
@@ -17,18 +18,19 @@
    "reqd": 1
   },
   {
-   "fieldname": "dytext_project_token",
+   "fieldname": "project_client_token",
    "fieldtype": "Data",
-   "label": "Dytext project Token"
+   "label": "Project Client Token"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-24 14:13:55.051450",
+ "modified": "2025-09-24 16:41:01.114835",
  "modified_by": "Administrator",
  "module": "Dytext",
  "name": "Dytext Project",
+ "naming_rule": "Set by user",
  "owner": "Administrator",
  "permissions": [
   {
