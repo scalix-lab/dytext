@@ -3,11 +3,21 @@ from frappe import _
 
 @frappe.whitelist(allow_guest=True)
 def get_project_data(client_token, model_name='*'):
-    project_name = frappe.get_value("Dytext Project", {"project_client_token": client_token}, "name")
-    if not project_name:
-        frappe.throw(_("Invalid Client Token"), frappe.PermissionError)
+    if "." not in client_token:
+        frappe.throw(_("Invalid token format. Must be <project_name>.<client_token>"))
 
-    model_filters = {"project": project_name}
+    project_name, raw_token = client_token.split(".", 1)
+
+    project_doc = frappe.get_value(
+        "Dytext Project",
+        {"project_name": project_name, "project_client_token": raw_token},
+        "name"
+    )
+
+    if not project_doc:
+        frappe.throw(_("Invalid Project or Token"), frappe.PermissionError)
+
+    model_filters = {"project": project_doc}
     if model_name != "*" and model_name:
         model_filters["model_name"] = model_name
 
@@ -35,16 +45,15 @@ def get_project_data(client_token, model_name='*'):
 
             field_obj = {}
             for f in fields_def:
-                field_obj[f["key"]] = {
-                    "value": row_value.get(f["key"], None)
-                }
+                field_obj[f["key"]] = {"value": row_value.get(f["key"], None)}
+
             fields_list.append(field_obj)
 
         models[m.model_name] = {
             "name": m.model_name,
             "fields": fields_list
         }
-        
+
     return models
 
 
