@@ -19,6 +19,8 @@ stages:
 trigger_build:
   stage: build
   image: alpine:latest
+  tags:
+    - ubuntu-shared
   before_script:
     - apk add --no-cache curl
   rules:
