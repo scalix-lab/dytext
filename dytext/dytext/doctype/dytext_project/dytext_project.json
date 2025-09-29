@@ -1,13 +1,13 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "Prompt",
  "creation": "2025-09-24 13:00:37.215242",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "project_name",
-  "project_client_token"
+  "project_client_token",
+  "user"
  ],
  "fields": [
   {
@@ -21,16 +21,22 @@
    "fieldname": "project_client_token",
    "fieldtype": "Data",
    "label": "Project Client Token"
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-24 16:41:01.114835",
+ "modified": "2025-09-28 20:22:54.074699",
  "modified_by": "Administrator",
  "module": "Dytext",
  "name": "Dytext Project",
- "naming_rule": "Set by user",
  "owner": "Administrator",
  "permissions": [
   {
@@ -42,6 +48,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Dytext User",
    "share": 1,
    "write": 1
   }
