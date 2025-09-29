@@ -13,6 +13,3 @@ class DytextProject(Document):
         """
         if not self.project_client_token:
             self.project_client_token = secrets.token_hex(32)
-        if self.project_name:
-            unique_id = self.name or frappe.generate_hash(length=10)
-            self.name = f"{self.project_name}.{unique_id}"
