@@ -11,10 +11,3 @@ export function initDytext(dytextClientToken: string, config?: DyTextConfig) {
 export async function getDytext(path?: string ) {
 	return resolveDytext(path || '*');
 }
-
-export * from './api/apiService';
-export * from './core/init';
-export * from './state/cache';
-export * from './state/state';
-export * from './utils/types';
-export * from './utils/constants';

@@ -1,7 +1,7 @@
 import { initDytext, getDytext } from '../src/index';
 import { resetState } from '../src/state/state';
 
-const TEST_TOKEN = 'PROJ11.ASDMK2MKMD22K1M12MD1K2MK2MM21';
+const TEST_TOKEN = 'debuging.a1ec81ad309a04700e10d377a2663641d40890ecfa64f96ee4c2cc5942c4cec2';
 
 describe('DyText Library Tests', () => {
   beforeEach(() => {
