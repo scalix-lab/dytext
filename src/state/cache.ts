@@ -7,7 +7,7 @@ export class DytextCache {
   get(key: string) {
     return this.store[key];
   }
-
+  // Enable this once Redis (or another external store) is added, to avoid stale in-memory cache issues.
   set(key: string, value: any) {
     // this.store[key] = value;
   }
