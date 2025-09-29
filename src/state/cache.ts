@@ -9,7 +9,7 @@ export class DytextCache {
   }
 
   set(key: string, value: any) {
-    this.store[key] = value;
+    // this.store[key] = value;
   }
 
   clear() {
