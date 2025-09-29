@@ -7,9 +7,9 @@ export class DytextCache {
   get(key: string) {
     return this.store[key];
   }
-
+  // TODO: Disable caching to debug, uncomment once resolved.
   set(key: string, value: any) {
-    this.store[key] = value;
+    // this.store[key] = value;
   }
 
   clear() {
