@@ -1,6 +1,6 @@
 {
   "name": "dytext",
-  "version": "0.1.4",
+  "version": "0.2.4",
   "description": "Simple, powerful dynamic text management for modern web applications",
   "main": "dist/dytext.js",
   "module": "dist/dytext.esm.js",
@@ -31,7 +31,7 @@
     "react-cms",
     "api-client"
   ],
-  "author": "Your Name",
+  "author": "Prafful Suthar",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^30.0.0",

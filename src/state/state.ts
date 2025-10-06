@@ -8,32 +8,28 @@ export interface LibraryState {
   token?: string;
 }
 
-// Global state management for the library
-let state: LibraryState = {
-  initialized: false,
-  dytextClientToken: undefined,
-  projectId: undefined,
-  token: undefined
-};
+import { StateManager } from './StateManager';
+
+const stateManager = StateManager.getInstance();
 
 export function isInitialized(): boolean {
-  return state.initialized;
+  return stateManager.isInitialized();
 }
 
 export function getState(): LibraryState {
-  return state;
+  return stateManager.getState();
 }
 
 export function resetState(): void {
-  state = { initialized: false, dytextClientToken: undefined, projectId: undefined, token: undefined };
+  stateManager.reset();
 }
 
 export function setState(newState: Partial<LibraryState>): void {
-  state = { ...state, ...newState };
+  stateManager.setState(newState);
 }
 
 export function ensureInitialized(): void {
-  if (!state.initialized) {
+  if (!stateManager.isInitialized()) {
     throw new Error('DyText library must be initialized before use. Call initDytext() first.');
   }
 }

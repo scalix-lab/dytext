@@ -1,37 +1,36 @@
-import { initDytext, getDytext } from '../src/index';
-import { resetState } from '../src/state/state';
+import { initDytext, getDytext, resetConfig } from '../src/index';
 
 const TEST_TOKEN = 'debuging.a1ec81ad309a04700e10d377a2663641d40890ecfa64f96ee4c2cc5942c4cec2';
 
 describe('DyText Library Tests', () => {
   beforeEach(() => {
     // Reset initialization state before each test
-    resetState();
+    resetConfig();
   });
 
   describe('Library Initialization', () => {
-    it('should initialize the library correctly', () => {
-      const result = initDytext(TEST_TOKEN);
+    it('should initialize the library correctly', async () => {
+      const result = await initDytext(TEST_TOKEN);
       
       expect(result.initialized).toBe(true);
       expect(result.dytextClientToken).toBe(TEST_TOKEN);
     });
 
-    it('should initialize with options', () => {
+    it('should initialize with options', async () => {
       const config = {};
-      const result = initDytext(TEST_TOKEN, config);
+      const result = await initDytext(TEST_TOKEN, config);
       
       expect(result.initialized).toBe(true);
       expect(result.dytextClientToken).toBe(TEST_TOKEN);
     });
 
-    it('should prevent multiple initializations', () => {
+    it('should prevent multiple initializations', async () => {
       // First initialization
-      const result1 = initDytext(TEST_TOKEN);
+      const result1 = await initDytext(TEST_TOKEN);
       expect(result1.initialized).toBe(true);
       
       // Second initialization should be ignored
-      const result2 = initDytext(TEST_TOKEN);
+      const result2 = await initDytext(TEST_TOKEN);
       expect(result2.initialized).toBe(true);
     });
 
@@ -43,9 +42,10 @@ describe('DyText Library Tests', () => {
   });
 
   describe('Data Fetching', () => {
-    beforeEach(() => {
-      // Initialize library before each data fetching test
-      initDytext(TEST_TOKEN);
+    beforeEach(async () => {
+      // Reset and initialize before each test
+      resetConfig();
+      await initDytext(TEST_TOKEN);
     });
 
     it('should fetch all data with wildcard "*"', async () => {
@@ -112,8 +112,10 @@ describe('DyText Library Tests', () => {
   });
 
   describe('Caching Behavior', () => {
-    beforeEach(() => {
-      initDytext(TEST_TOKEN);
+    beforeEach(async () => {
+      // Reset and initialize before each test
+      resetConfig();
+      await initDytext(TEST_TOKEN);
     });
 
     it('should cache module data and reuse for different subpaths', async () => {

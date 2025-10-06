@@ -27,8 +27,9 @@ npm install dytext
 ```typescript
 import { initDytext, getDytext } from 'dytext';
 
-// Initialize the library
-initDytext();
+// Initialize the library (generic example)
+// NOTE: For framework specific initialization (e.g., React, Vue), refer to the documentation.
+await initDytext();
 
 // Fetch all data
 const allData = await getDytext('*');

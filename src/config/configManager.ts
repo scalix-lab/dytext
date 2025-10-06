@@ -2,6 +2,7 @@ import { DytextConfig, DytextApiConfig } from '../types/config';
 import { ValidationError } from '../errors/errors';
 
 import { API, TIMEOUTS, DEFAULTS, buildApiUrl } from '../constants';
+import { deepMerge } from '../utils/common';
 
 /**
  * Default API configuration
@@ -77,16 +78,8 @@ export class ConfigManager {
     this.validateConfig(config);
 
     // Deep merge configuration
-    this.config = {
-      ...this.config,
-      ...config,
-      api: config.api
-        ? { ...this.config.api, ...config.api }
-        : this.config.api,
-      cache: config.cache
-        ? { ...this.config.cache, ...config.cache }
-        : this.config.cache
-    };
+    // TODO: Improve typing to avoid 'any'
+    this.config = deepMerge<any>(this.config, config);
   }
 
   /**
