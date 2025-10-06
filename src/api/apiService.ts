@@ -1,42 +1,28 @@
 
-import { DYTEXT_API_ENDPOINT } from '../utils/constants';
-import { ensureInitialized, getState } from '../state/state';
+import { DytextApiConfig } from '../types/config';
+import { DytextApiClient } from './client';
 
-// Pure API service for dytext data
+/**
+ * API service for handling backend requests
+ */
 export class DytextApiService {
-  // Get a specific model or all models from the real API
-  static async get(model: string) {
-    ensureInitialized();
-    const state = getState();
+  private static client: DytextApiClient;
 
-    const { dytextClientToken } = state;
+  /**
+   * Initialize the API service with configuration
+   */
+  public static initialize(config?: DytextApiConfig): void {
+    this.client = new DytextApiClient(config);
+  }
 
-    const url = `${DYTEXT_API_ENDPOINT}/${model.toString()}`;
-    
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-dytext-client-token': dytextClientToken || '',
-        },
-      });
-      
-      if (!response.ok) {
-        // Return undefined for 404 (not found) errors instead of throwing
-        if (response.status === 404) {
-          return undefined;
-        }
-
-        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
-      }
-      
-      const result = await response.json();
-      
-      return result.data || result;
-    } catch (error) {
-      console.error('DyText API Error:', error);
-      throw error;
+  /**
+   * Get a specific model or all models from the API
+   */
+  public static async get<T = unknown>(model: string): Promise<T> {
+    if (!this.client) {
+      this.initialize();
     }
+
+    return await this.client.get<T>(model);
   }
 }

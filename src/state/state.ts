@@ -1,7 +1,15 @@
-import { DyTextState } from '../utils/types';
+/**
+ * Library state structure
+ */
+export interface LibraryState {
+  initialized: boolean;
+  dytextClientToken?: string;
+  projectId?: string;
+  token?: string;
+}
 
 // Global state management for the library
-let state: DyTextState = {
+let state: LibraryState = {
   initialized: false,
   dytextClientToken: undefined,
   projectId: undefined,
@@ -12,7 +20,7 @@ export function isInitialized(): boolean {
   return state.initialized;
 }
 
-export function getState(): DyTextState {
+export function getState(): LibraryState {
   return state;
 }
 
@@ -20,7 +28,7 @@ export function resetState(): void {
   state = { initialized: false, dytextClientToken: undefined, projectId: undefined, token: undefined };
 }
 
-export function setState(newState: Partial<DyTextState>): void {
+export function setState(newState: Partial<LibraryState>): void {
   state = { ...state, ...newState };
 }
 

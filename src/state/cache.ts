@@ -1,20 +1,4 @@
-// Simple in-memory cache implementation
-// Can be extended to use Redis, localStorage, etc.
+import { defaultCache } from '../core/cache/factory';
 
-export class DytextCache {
-  private store: Record<string, any> = {};
-
-  get(key: string) {
-    return this.store[key];
-  }
-  // TODO: Disable caching to debug, uncomment once resolved.
-  set(key: string, value: any) {
-    // this.store[key] = value;
-  }
-
-  clear() {
-    this.store = {};
-  }
-}
-
-export const dytextCache = new DytextCache();
+// Re-export the default cache instance
+export const dytextCache = defaultCache;
