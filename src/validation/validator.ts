@@ -1,4 +1,4 @@
-import { DytextModel, DytextPrimitiveValue, DytextField } from '../models/models';
+import { DytextModel, DytextPrimitiveValue, DytextField } from '../types/models/models';
 import { DytextValidationResult } from '../types/results';
 import { ValidationError } from '../errors/errors';
 

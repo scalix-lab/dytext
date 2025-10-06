@@ -1,6 +1,6 @@
 import { DytextApiConfig } from '../types/config';
 import { ApiError, NetworkError } from '../errors/errors';
-import { ensureInitialized, getState } from '../state/state';
+import { StateManager } from '../state/StateManager';
 import { API, TIMEOUTS, DEFAULTS } from '../constants';
 
 export class DytextApiClient {
@@ -92,8 +92,13 @@ export class DytextApiClient {
    * Get data from the API
    */
   public async get<T = unknown>(model: string): Promise<T> {
-    ensureInitialized();
-    const state = getState();
+    const stateManager = StateManager.getInstance();
+    
+    if (!stateManager.isInitialized()) {
+      throw new Error('DyText library must be initialized before use. Call initDytext() first.');
+    }
+    
+    const state = stateManager.getState();
     const { dytextClientToken } = state;
 
     if (!dytextClientToken) {

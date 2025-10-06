@@ -1,5 +1,5 @@
 // Re-export all types from their respective modules
-export * from '../models/models';
+export * from '../types/models/models';
 export * from '../types/config';
 export * from '../types/results';
 export * from '../types/paths';

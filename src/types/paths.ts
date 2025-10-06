@@ -1,4 +1,4 @@
-import { DytextModel, DytextModelFields, ExtractModelValues } from '../models/models';
+import { DytextModel, DytextModelFields, ExtractModelValues } from './models/models';
 
 /**
  * Type for dotted path strings

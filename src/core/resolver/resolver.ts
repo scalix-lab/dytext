@@ -1,5 +1,5 @@
 import { DottedPath } from '../../utils/types';
-import { ensureInitialized } from '../../state/state';
+import { StateManager } from '../../state/StateManager';
 import { IResolver, IResolutionStrategy } from './interfaces';
 import { WildcardResolutionStrategy, ModuleResolutionStrategy } from './strategies';
 import { DytextResolutionResult } from '../../types/results';
@@ -7,13 +7,22 @@ import { DytextBaseError, ResolutionError } from '../../errors/errors';
 import { dytextCache } from '../../state/cache';
 
 export class DytextResolver implements IResolver {
+  private static instance: DytextResolver;
   private strategies: IResolutionStrategy[] = [];
   private resolutionHistory: Map<string, DytextResolutionResult> = new Map();
+  private stateManager = StateManager.getInstance();
 
-  constructor() {
+  private constructor() {
     // Register default strategies
     this.addStrategy(new WildcardResolutionStrategy());
     this.addStrategy(new ModuleResolutionStrategy());
+  }
+
+  static getInstance(): DytextResolver {
+    if (!DytextResolver.instance) {
+      DytextResolver.instance = new DytextResolver();
+    }
+    return DytextResolver.instance;
   }
 
   private _trackResolution(path: string, value: any, fromCache: boolean): void {
@@ -30,8 +39,10 @@ export class DytextResolver implements IResolver {
   }
 
   async resolve(path: DottedPath): Promise<any> {
-    // First check initialization - let this error propagate directly
-    ensureInitialized();
+    // First check initialization
+    if (!this.stateManager.isInitialized()) {
+      throw new Error('DyText library must be initialized before use. Call initDytext() first.');
+    }
 
     try {
       // Find the first strategy that can handle this path
@@ -61,6 +72,3 @@ export class DytextResolver implements IResolver {
     }
   }
 }
-
-// Create singleton instance
-export const dytextResolver = new DytextResolver();
