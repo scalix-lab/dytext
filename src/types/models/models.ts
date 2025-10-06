@@ -6,7 +6,9 @@ export type DytextPrimitiveValue = string | number | boolean | string[];
 /**
  * Field value with metadata
  */
-export interface DytextField<T extends DytextPrimitiveValue = DytextPrimitiveValue> {
+export interface DytextField<
+  T extends DytextPrimitiveValue = DytextPrimitiveValue,
+> {
   value: T;
   metadata?: Record<string, unknown>;
 }

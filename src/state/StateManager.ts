@@ -1,4 +1,4 @@
-import type { LibraryState } from './state';
+import type { LibraryState } from "../types/config";
 
 export class StateManager {
   private static instance: StateManager;
@@ -6,7 +6,7 @@ export class StateManager {
     initialized: false,
     dytextClientToken: undefined,
     projectId: undefined,
-    token: undefined
+    token: undefined,
   };
 
   private constructor() {}
@@ -35,7 +35,7 @@ export class StateManager {
       initialized: false,
       dytextClientToken: undefined,
       projectId: undefined,
-      token: undefined
+      token: undefined,
     };
   }
 }

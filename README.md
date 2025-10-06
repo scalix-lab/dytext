@@ -25,20 +25,22 @@ npm install dytext
 ## Quick Start
 
 ```typescript
-import { initDytext, getDytext } from 'dytext';
+import { initDytext, getDytext } from "dytext";
 
 // Initialize the library (generic example)
 // NOTE: For framework specific initialization (e.g., React, Vue), refer to the documentation.
 await initDytext();
 
 // Fetch all data
-const allData = await getDytext('*');
+const allData = await getDytext("*");
 
 // Fetch specific model
-const productCatalog = await getDytext('product_catalog');
+const productCatalog = await getDytext("product_catalog");
 
 // Fetch nested data with dotted paths
-const productName = await getDytext('product_catalog.fields.0.field_json.value');
+const productName = await getDytext(
+  "product_catalog.fields.0.field_json.value",
+);
 ```
 
 ## Development

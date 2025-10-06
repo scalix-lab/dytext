@@ -1,4 +1,4 @@
-import { ICache, ICacheConfig, ICacheEntry, ICacheEvents } from './interfaces';
+import { ICache, ICacheConfig, ICacheEntry, ICacheEvents } from "./interfaces";
 
 export abstract class BaseCache implements ICache {
   protected config: ICacheConfig;
@@ -24,11 +24,11 @@ export abstract class BaseCache implements ICache {
   protected createEntry<T>(value: T): ICacheEntry<T> {
     const timestamp = Date.now();
     const expiresAt = this.config.ttl ? timestamp + this.config.ttl : undefined;
-    
+
     return {
       value,
       timestamp,
-      expiresAt
+      expiresAt,
     };
   }
 

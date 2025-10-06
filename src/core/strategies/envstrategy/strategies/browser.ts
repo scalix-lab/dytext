@@ -1,9 +1,9 @@
-import { EnvStrategy } from '../EnvStrategy';
-import { DytextConfig } from '../../../../types/config';
+import { EnvStrategy } from "../EnvStrategy";
+import { DytextConfig } from "../../../../types/config";
 
 export class BrowserEnvStrategy implements EnvStrategy {
   getToken(): string | undefined {
-    if (typeof window === 'undefined') return undefined;
+    if (typeof window === "undefined") return undefined;
     return (window as any).DYTEXT_CLIENT_TOKEN;
   }
 
@@ -11,12 +11,12 @@ export class BrowserEnvStrategy implements EnvStrategy {
     return {
       cache: {
         ttl: 600000, // 10 minutes for better offline support
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 
   isApplicable(): boolean {
-    return typeof window !== 'undefined';
+    return typeof window !== "undefined";
   }
 }

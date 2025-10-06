@@ -1,6 +1,5 @@
-
-import { DytextApiConfig } from '../types/config';
-import { DytextApiClient } from './client';
+import { DytextApiConfig } from "../types/config";
+import { DytextApiClient } from "./client";
 
 /**
  * API service for handling backend requests

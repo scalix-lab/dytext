@@ -1,7 +1,7 @@
-import { DytextApiConfig } from '../types/config';
-import { ApiError, NetworkError } from '../errors/errors';
-import { StateManager } from '../state/StateManager';
-import { API, TIMEOUTS, DEFAULTS } from '../constants';
+import { DytextApiConfig } from "../types/config";
+import { ApiError, NetworkError } from "../errors/errors";
+import { StateManager } from "../state/StateManager";
+import { API, TIMEOUTS, DEFAULTS } from "../constants";
 
 export class DytextApiClient {
   private readonly config: Required<DytextApiConfig>;
@@ -12,7 +12,7 @@ export class DytextApiClient {
       timeout: TIMEOUTS.API_REQUEST,
       retryAttempts: DEFAULTS.RETRY_ATTEMPTS,
       retryDelay: TIMEOUTS.RETRY_DELAY,
-      ...config
+      ...config,
     };
   }
 
@@ -22,7 +22,7 @@ export class DytextApiClient {
   private async request<T>(
     url: string,
     init: RequestInit = {},
-    attempt = 1
+    attempt = 1,
   ): Promise<T> {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.config.timeout);
@@ -31,7 +31,7 @@ export class DytextApiClient {
       const response = await fetch(url, {
         ...init,
         headers: {
-          'content-type': API.HEADERS.CONTENT_TYPE,
+          "content-type": API.HEADERS.CONTENT_TYPE,
           ...init.headers,
         },
         signal: controller.signal,
@@ -44,44 +44,44 @@ export class DytextApiClient {
 
         throw new ApiError(
           `API request failed: ${response.status} ${response.statusText}`,
-          await response.json().catch(() => undefined)
+          await response.json().catch(() => undefined),
         );
       }
 
       const result = await response.json();
-      
+
       // If the response has a data property, return that
-      if (result && typeof result === 'object' && 'data' in result) {
+      if (result && typeof result === "object" && "data" in result) {
         return result.data;
       }
-      
+
       return result;
     } catch (error) {
       if (error instanceof ApiError) {
         throw error;
       }
 
-      if (error instanceof Error && error.name === 'AbortError') {
-        throw new NetworkError('Request timeout');
+      if (error instanceof Error && error.name === "AbortError") {
+        throw new NetworkError("Request timeout");
       }
 
       // Retry on network errors
       if (attempt < this.config.retryAttempts) {
-        await new Promise(resolve =>
-          setTimeout(resolve, this.config.retryDelay * attempt)
+        await new Promise((resolve) =>
+          setTimeout(resolve, this.config.retryDelay * attempt),
         );
         return this.request(url, init, attempt + 1);
       }
 
-      console.error('API Request failed:', {
+      console.error("API Request failed:", {
         url,
         error: error instanceof Error ? error.message : error,
         attempt,
-        headers: init.headers
+        headers: init.headers,
       });
       throw new NetworkError(
-        'Failed to fetch data from API',
-        error instanceof Error ? error.message : error
+        "Failed to fetch data from API",
+        error instanceof Error ? error.message : error,
       );
     } finally {
       clearTimeout(timeout);
@@ -93,16 +93,18 @@ export class DytextApiClient {
    */
   public async get<T = unknown>(model: string): Promise<T> {
     const stateManager = StateManager.getInstance();
-    
+
     if (!stateManager.isInitialized()) {
-      throw new Error('DyText library must be initialized before use. Call initDytext() first.');
+      throw new Error(
+        "DyText library must be initialized before use. Call initDytext() first.",
+      );
     }
-    
+
     const state = stateManager.getState();
     const { dytextClientToken } = state;
 
     if (!dytextClientToken) {
-      throw new ApiError('Missing client token');
+      throw new ApiError("Missing client token");
     }
 
     const url = `${this.config.endpoint}/${model}`;
