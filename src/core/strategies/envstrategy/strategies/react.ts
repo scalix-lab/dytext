@@ -1,9 +1,9 @@
-import { EnvStrategy } from '../EnvStrategy';
-import { DytextConfig } from '../../../../types/config';
+import { EnvStrategy } from "../EnvStrategy";
+import { DytextConfig } from "../../../../types/config";
 
 export class ReactEnvStrategy implements EnvStrategy {
   getToken(): string | undefined {
-    if (typeof process === 'undefined' || !process.env) return undefined;
+    if (typeof process === "undefined" || !process.env) return undefined;
     return process.env.REACT_APP_DYTEXT_CLIENT_TOKEN;
   }
 
@@ -11,15 +11,17 @@ export class ReactEnvStrategy implements EnvStrategy {
     return {
       cache: {
         ttl: 300000, // 5 minutes
-        enabled: true
-      }
+        enabled: true,
+      },
     };
   }
 
   isApplicable(): boolean {
-    return typeof process !== 'undefined' && 
-           !!process.env &&
-           // Check for Create React App environment
-           Object.keys(process.env).some(key => key.startsWith('REACT_APP_'));
+    return (
+      typeof process !== "undefined" &&
+      !!process.env &&
+      // Check for Create React App environment
+      Object.keys(process.env).some((key) => key.startsWith("REACT_APP_"))
+    );
   }
 }

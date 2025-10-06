@@ -1,4 +1,4 @@
-import { DytextError, DytextErrorCode } from '../types/results';
+import { DytextError, DytextErrorCode } from "../types/results";
 
 /**
  * Base error class for all DyText errors
@@ -18,7 +18,7 @@ export class DytextBaseError extends Error implements DytextError {
     return {
       code: this.code,
       message: this.message,
-      details: this.details
+      details: this.details,
     };
   }
 }
@@ -78,10 +78,10 @@ export class ResolutionError extends DytextBaseError {
 }
 
 /**
- * Validation related errors
+ * Configuration validation errors
  */
 export class ValidationError extends DytextBaseError {
   constructor(message: string, details?: unknown) {
-    super(DytextErrorCode.VALIDATION_ERROR, message, details);
+    super(DytextErrorCode.INITIALIZATION_ERROR, message, details); // Using INITIALIZATION_ERROR since this is only used for config validation now
   }
 }

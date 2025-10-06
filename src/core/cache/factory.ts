@@ -1,5 +1,10 @@
-import { ICache, ICacheConfig, CacheStrategy, ICacheEvents } from './interfaces';
-import { MemoryCache } from './memory';
+import {
+  ICache,
+  ICacheConfig,
+  CacheStrategy,
+  ICacheEvents,
+} from "./interfaces";
+import { MemoryCache } from "./memory";
 
 export class CacheFactory {
   static createCache(config: ICacheConfig, events?: ICacheEvents): ICache {
@@ -18,10 +23,10 @@ export class CacheFactory {
 const defaultConfig: ICacheConfig = {
   strategy: CacheStrategy.MEMORY,
   ttl: 5 * 60 * 1000, // 5 minutes
-  maxSize: 1000
+  maxSize: 1000,
 };
 
 // Create default cache instance
 export const defaultCache = CacheFactory.createCache(defaultConfig, {
-  onError: (error) => console.error('Cache error:', error)
+  onError: (error) => console.error("Cache error:", error),
 });

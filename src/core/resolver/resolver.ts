@@ -1,10 +1,17 @@
-import { DottedPath } from '../../utils/types';
-import { StateManager } from '../../state/StateManager';
-import { IResolver, IResolutionStrategy } from './interfaces';
-import { WildcardResolutionStrategy, ModuleResolutionStrategy } from './strategies';
-import { DytextResolutionResult } from '../../types/results';
-import { DytextBaseError, ResolutionError } from '../../errors/errors';
-import { dytextCache } from '../../state/cache';
+import { DottedPath } from "../../utils/types";
+import { StateManager } from "../../state/StateManager";
+import { IResolver, IResolutionStrategy } from "./interfaces";
+import {
+  WildcardResolutionStrategy,
+  ModuleResolutionStrategy,
+} from "./strategies";
+import {
+  DytextResolutionResult,
+  ResolvedValue,
+  ModelData,
+} from "../../types/results";
+import { DytextBaseError, ResolutionError } from "../../errors/errors";
+import { dytextCache } from "../../state/cache";
 
 export class DytextResolver implements IResolver {
   private static instance: DytextResolver;
@@ -25,12 +32,16 @@ export class DytextResolver implements IResolver {
     return DytextResolver.instance;
   }
 
-  private _trackResolution(path: string, value: any, fromCache: boolean): void {
+  private _trackResolution(
+    path: string,
+    value: ResolvedValue,
+    fromCache: boolean,
+  ): void {
     this.resolutionHistory.set(path, {
       value,
       path,
       timestamp: Date.now(),
-      source: fromCache ? 'cache' : 'api'
+      source: fromCache ? "cache" : "api",
     });
   }
 
@@ -38,36 +49,42 @@ export class DytextResolver implements IResolver {
     this.strategies.push(strategy);
   }
 
-  async resolve(path: DottedPath): Promise<any> {
+  async resolve<T extends ResolvedValue = ModelData>(
+    path: DottedPath,
+  ): Promise<T> {
     // First check initialization
     if (!this.stateManager.isInitialized()) {
-      throw new Error('DyText library must be initialized before use. Call initDytext() first.');
+      throw new Error(
+        "DyText library must be initialized before use. Call initDytext() first.",
+      );
     }
 
     try {
       // Find the first strategy that can handle this path
-      const strategy = this.strategies.find(s => s.canResolve(path));
-      
+      const strategy = this.strategies.find((s) => s.canResolve(path));
+
       if (!strategy) {
-        throw new ResolutionError(`No resolution strategy found for path: ${path}`);
+        throw new ResolutionError(
+          `No resolution strategy found for path: ${path}`,
+        );
       }
 
       const result = await strategy.resolve(path);
-      
+
       // Track metadata internally without exposing it in the return value
       if (result !== undefined) {
         this._trackResolution(path, result, result === dytextCache.get(path));
       }
 
-      return result;
+      return result as T;
     } catch (error) {
       if (error instanceof DytextBaseError) {
         throw error;
       }
-      
+
       throw new ResolutionError(
         `Failed to resolve path: ${path}`,
-        error instanceof Error ? error.message : error
+        error instanceof Error ? error.message : error,
       );
     }
   }

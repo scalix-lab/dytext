@@ -1,10 +1,10 @@
-import { DytextApiConfig } from '../types/config';
+import { DytextApiConfig } from "../types/config";
 
 /**
  * Default API configuration values
  */
 export const DEFAULT_API_CONFIG: Required<DytextApiConfig> = {
-  endpoint: 'https://dytext.scalix.in/api/get-model',
+  endpoint: "https://dytext.scalix.in/api/get-model",
   timeout: 30000, // 30 seconds
   retryAttempts: 3,
   retryDelay: 1000, // 1 second

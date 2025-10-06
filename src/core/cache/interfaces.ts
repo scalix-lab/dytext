@@ -11,9 +11,9 @@ export interface ICacheConfig {
  * Available cache strategies
  */
 export enum CacheStrategy {
-  MEMORY = 'memory',
-  LOCAL_STORAGE = 'localStorage',
-  NONE = 'none'
+  MEMORY = "memory",
+  LOCAL_STORAGE = "localStorage",
+  NONE = "none",
 }
 
 /**
@@ -41,7 +41,7 @@ export interface ICache {
  * Cache events that can be subscribed to
  */
 export interface ICacheEvents {
-  onSet?: (key: string, value: any) => void;
+  onSet?: (key: string, value: unknown) => void;
   onGet?: (key: string, hit: boolean) => void;
   onDelete?: (key: string) => void;
   onClear?: () => void;

@@ -1,8 +1,8 @@
-import { DytextConfig, DytextApiConfig } from '../types/config';
-import { ValidationError } from '../errors/errors';
+import { DytextConfig, DytextApiConfig } from "../types/config";
+import { ValidationError } from "../errors/errors";
 
-import { API, TIMEOUTS, DEFAULTS, buildApiUrl } from '../constants';
-import { deepMerge } from '../utils/common';
+import { API, TIMEOUTS, DEFAULTS, buildApiUrl } from "../constants";
+import { deepMerge } from "../utils/common";
 
 /**
  * Default API configuration
@@ -11,7 +11,7 @@ const DEFAULT_API_CONFIG: Required<DytextApiConfig> = {
   endpoint: buildApiUrl(API.ENDPOINTS.GET_MODEL),
   timeout: TIMEOUTS.API_REQUEST,
   retryAttempts: DEFAULTS.RETRY_ATTEMPTS,
-  retryDelay: TIMEOUTS.RETRY_DELAY
+  retryDelay: TIMEOUTS.RETRY_DELAY,
 };
 
 /**
@@ -19,12 +19,12 @@ const DEFAULT_API_CONFIG: Required<DytextApiConfig> = {
  */
 const DEFAULT_CONFIG: Required<DytextConfig> = {
   debug: false,
-  version: '1.0.0',
+  version: "1.0.0",
   api: DEFAULT_API_CONFIG,
   cache: {
     enabled: true,
-    ttl: 300000 // 5 minutes
-  }
+    ttl: 300000, // 5 minutes
+  },
 };
 
 /**
@@ -54,19 +54,19 @@ export class ConfigManager {
   private validateConfig(config: Partial<DytextConfig>): void {
     if (config.api) {
       if (config.api.timeout && config.api.timeout < 0) {
-        throw new ValidationError('API timeout must be a positive number');
+        throw new ValidationError("API timeout must be a positive number");
       }
       if (config.api.retryAttempts && config.api.retryAttempts < 0) {
-        throw new ValidationError('Retry attempts must be a positive number');
+        throw new ValidationError("Retry attempts must be a positive number");
       }
       if (config.api.retryDelay && config.api.retryDelay < 0) {
-        throw new ValidationError('Retry delay must be a positive number');
+        throw new ValidationError("Retry delay must be a positive number");
       }
     }
 
     if (config.cache) {
       if (config.cache.ttl && config.cache.ttl < 0) {
-        throw new ValidationError('Cache TTL must be a positive number');
+        throw new ValidationError("Cache TTL must be a positive number");
       }
     }
   }
@@ -78,8 +78,7 @@ export class ConfigManager {
     this.validateConfig(config);
 
     // Deep merge configuration
-    // TODO: Improve typing to avoid 'any'
-    this.config = deepMerge<any>(this.config, config);
+    this.config = deepMerge(this.config, config) as Required<DytextConfig>;
   }
 
   /**
@@ -100,7 +99,9 @@ export class ConfigManager {
    * Get API configuration
    */
   public getApiConfig(): Readonly<Required<DytextApiConfig>> {
-    return Object.freeze({ ...this.config.api }) as Readonly<Required<DytextApiConfig>>;
+    return Object.freeze({ ...this.config.api }) as Readonly<
+      Required<DytextApiConfig>
+    >;
   }
 
   /**

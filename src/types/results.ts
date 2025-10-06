@@ -2,13 +2,12 @@
  * Error codes enum
  */
 export enum DytextErrorCode {
-  INITIALIZATION_ERROR = 'INITIALIZATION_ERROR',
-  INVALID_TOKEN = 'INVALID_TOKEN',
-  API_ERROR = 'API_ERROR',
-  NETWORK_ERROR = 'NETWORK_ERROR',
-  CACHE_ERROR = 'CACHE_ERROR',
-  RESOLUTION_ERROR = 'RESOLUTION_ERROR',
-  VALIDATION_ERROR = 'VALIDATION_ERROR'
+  INITIALIZATION_ERROR = "INITIALIZATION_ERROR",
+  INVALID_TOKEN = "INVALID_TOKEN",
+  API_ERROR = "API_ERROR",
+  NETWORK_ERROR = "NETWORK_ERROR",
+  CACHE_ERROR = "CACHE_ERROR",
+  RESOLUTION_ERROR = "RESOLUTION_ERROR",
 }
 
 /**
@@ -36,14 +35,23 @@ export interface DytextResolutionResult<T = unknown> {
   value: T;
   path: string;
   timestamp: number;
-  source: 'cache' | 'api';
+  source: "cache" | "api";
   metadata?: Record<string, unknown>;
 }
 
 /**
- * Validation result
+ * Model data type for resolution
  */
-export interface DytextValidationResult {
-  valid: boolean;
-  errors?: DytextError[];
-}
+export type ModelData = Record<string, unknown>;
+
+/**
+ * Resolved value type
+ */
+export type ResolvedValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | ModelData
+  | Array<unknown>;

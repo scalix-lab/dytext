@@ -1,5 +1,5 @@
-import { BaseCache } from './base';
-import { ICacheEntry, ICacheConfig, ICacheEvents } from './interfaces';
+import { BaseCache } from "./base";
+import { ICacheEntry, ICacheConfig, ICacheEvents } from "./interfaces";
 
 export class MemoryCache extends BaseCache {
   private store: Map<string, ICacheEntry<any>>;
@@ -11,7 +11,7 @@ export class MemoryCache extends BaseCache {
 
   get<T>(key: string): T | undefined {
     const entry = this.store.get(key);
-    
+
     if (!entry) {
       this.events.onGet?.(key, false);
       return undefined;
@@ -32,8 +32,9 @@ export class MemoryCache extends BaseCache {
       // Check size limit before adding
       if (this.config.maxSize && this.store.size >= this.config.maxSize) {
         // Remove oldest entry
-        const oldest = Array.from(this.store.entries())
-          .sort(([, a], [, b]) => a.timestamp - b.timestamp)[0];
+        const oldest = Array.from(this.store.entries()).sort(
+          ([, a], [, b]) => a.timestamp - b.timestamp,
+        )[0];
         if (oldest) {
           this.delete(oldest[0]);
         }
@@ -50,12 +51,12 @@ export class MemoryCache extends BaseCache {
   has(key: string): boolean {
     const entry = this.store.get(key);
     if (!entry) return false;
-    
+
     if (this.isExpired(entry)) {
       this.delete(key);
       return false;
     }
-    
+
     return true;
   }
 

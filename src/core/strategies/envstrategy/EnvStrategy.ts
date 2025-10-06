@@ -1,4 +1,4 @@
-import { DytextConfig } from '../../../types/config';
+import { DytextConfig } from "../../../types/config";
 
 export interface EnvStrategy {
   /**

@@ -42,12 +42,15 @@ export interface DytextClientToken {
 }
 
 /**
- * Library initialization result
+ * Library state and initialization result
  */
-export interface DytextInitResult {
+export interface LibraryState {
   initialized: boolean;
   dytextClientToken?: string;
   projectId?: string;
   token?: string;
   config?: DytextConfig;
 }
+
+// For backward compatibility
+export type DytextInitResult = LibraryState;

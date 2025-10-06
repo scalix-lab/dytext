@@ -1,8 +1,8 @@
-import { ConfigManager } from './config/configManager';
-import { DytextConfig, DytextInitResult } from './types/config';
-import { DytextModel } from './types/models/models';
-import { ValidModelPath } from './types/paths';
-import { DytextService } from './core/dytextService';
+import { ConfigManager } from "./config/configManager";
+import { DytextConfig, DytextInitResult } from "./types/config";
+import { DytextModel } from "./types/models/models";
+import { ValidModelPath } from "./types/paths";
+import { DytextService } from "./core/dytextService";
 
 const config = ConfigManager.getInstance();
 const dytext = DytextService.getInstance();
@@ -16,11 +16,8 @@ const dytext = DytextService.getInstance();
  */
 export async function initDytext(
   dytextClientToken?: string,
-  userConfig?: DytextConfig
+  userConfig?: DytextConfig,
 ): Promise<DytextInitResult> {
-  if (userConfig) {
-    config.updateConfig(userConfig);
-  }
   return dytext.initialize(dytextClientToken, userConfig);
 }
 
@@ -32,9 +29,9 @@ export async function initDytext(
  */
 export async function getDytext<
   T extends DytextModel = DytextModel,
-  P extends ValidModelPath<T> | '*' = '*'
->(path?: P): Promise<P extends '*' ? Record<string, T> : any> {
-  return dytext.get(path || '*');
+  P extends ValidModelPath<T> | "*" = "*",
+>(path?: P): Promise<P extends "*" ? Record<string, T> : any> {
+  return dytext.get(path || "*");
 }
 
 /**
@@ -61,7 +58,7 @@ export function setDebugMode(enabled: boolean): void {
 }
 
 // Re-export types for public use
-export * from './types/config';
-export * from './types/models/models';
-export * from './types/paths';
-export * from './types/results';
+export * from "./types/config";
+export * from "./types/models/models";
+export * from "./types/paths";
+export * from "./types/results";

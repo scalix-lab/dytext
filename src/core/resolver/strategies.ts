@@ -1,18 +1,18 @@
-import { DytextApiService } from '../../api/apiService';
-import { dytextCache } from '../../state/cache';
-import { DottedPath } from '../../utils/types';
-import { IResolutionStrategy } from './interfaces';
+import { DytextApiService } from "../../api/apiService";
+import { dytextCache } from "../../state/cache";
+import { DottedPath } from "../../utils/types";
+import { IResolutionStrategy } from "./interfaces";
 
 export class WildcardResolutionStrategy implements IResolutionStrategy {
   canResolve(path: DottedPath): boolean {
-    return !path || path === '*';
+    return !path || path === "*";
   }
 
   async resolve(path: DottedPath): Promise<any> {
     const cached = dytextCache.get(path);
     if (cached !== undefined) return cached;
 
-    const result = await DytextApiService.get('*');
+    const result = await DytextApiService.get("*");
     dytextCache.set(path, result);
     return result;
   }
@@ -23,18 +23,18 @@ export class ModuleResolutionStrategy implements IResolutionStrategy {
 
   constructor() {
     // Lazy load dlv to avoid issues with SSR
-    import('dlv').then(module => {
+    import("dlv").then((module) => {
       this.dlv = module.default;
     });
   }
 
   canResolve(path: DottedPath): boolean {
-    return path !== '*' && path !== '';
+    return path !== "*" && path !== "";
   }
 
   async resolve(path: DottedPath): Promise<any> {
     const { model, subpath } = this.parsePath(path);
-    
+
     // Check if module is cached
     let moduleObj = dytextCache.get(model);
 
@@ -42,19 +42,19 @@ export class ModuleResolutionStrategy implements IResolutionStrategy {
       moduleObj = await DytextApiService.get(model);
       dytextCache.set(model, moduleObj);
     }
-    
+
     if (!moduleObj) {
       return undefined;
     }
-    
+
     // Resolve subpath locally
     return subpath ? this.dlv(moduleObj, subpath) : moduleObj;
   }
 
   private parsePath(path: string): { model: string; subpath: string } {
-    const dotIndex = path.indexOf('.');
+    const dotIndex = path.indexOf(".");
     const model = dotIndex === -1 ? path : path.substring(0, dotIndex);
-    const subpath = dotIndex === -1 ? '' : path.substring(dotIndex + 1);
+    const subpath = dotIndex === -1 ? "" : path.substring(dotIndex + 1);
     return { model, subpath };
   }
 }
