@@ -1,6 +1,6 @@
 {
   "name": "dytext",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "type": "module",
   "description": "Simple, powerful dynamic text management for modern web applications",
   "main": "dist/dytext.js",
