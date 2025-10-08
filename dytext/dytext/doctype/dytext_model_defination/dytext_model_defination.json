@@ -17,7 +17,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Rich Text  (HTML editor)\nShort Text\nLong Text\nNumber (int / decimel)\nDate\nLocation\nMedia\nMulti-Media\nBoolean\nJSON\nInternal Reference\nLink/URL",
+   "options": "Rich Text\nShort Text\nLong Text\nNumber\nDate\nLocation\nMedia\nMulti-Media\nBoolean\nJSON\nInternal Reference\nLink/URL",
    "reqd": 1
   },
   {
@@ -45,7 +45,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-25 15:44:11.280110",
+ "modified": "2025-10-03 16:46:59.270934",
  "modified_by": "Administrator",
  "module": "Dytext",
  "name": "Dytext Model Defination",
