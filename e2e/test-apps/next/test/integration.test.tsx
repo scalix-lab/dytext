@@ -1,9 +1,9 @@
 /**
  * DyText Next.js Integration Test Suite
- * 
+ *
  * This is the main test file that imports and runs all individual test suites.
  * Each test category has been broken down into its own focused test file for better maintainability.
- * 
+ *
  * Test Files:
  * - basic-integration.test.tsx: Basic SDK initialization and data loading
  * - specific-model.test.tsx: Specific model fetching and display
@@ -18,16 +18,16 @@
  */
 
 // Import all test files to ensure they are executed
-import './basic-integration.test.tsx';
-import './specific-model.test.tsx';
-import './dotted-path.test.tsx';
-import './form-mapping.test.tsx';
-import './caching-behavior.test.tsx';
-import './error-handling.test.tsx';
-import './realtime-data.test.tsx';
-import './conditional-rendering.test.tsx';
-import './advanced-integration.test.tsx';
-import './initialization-patterns.test.tsx';
+import "./basic-integration.test.tsx";
+import "./specific-model.test.tsx";
+import "./dotted-path.test.tsx";
+import "./form-mapping.test.tsx";
+import "./caching-behavior.test.tsx";
+import "./error-handling.test.tsx";
+import "./realtime-data.test.tsx";
+import "./conditional-rendering.test.tsx";
+import "./advanced-integration.test.tsx";
+import "./initialization-patterns.test.tsx";
 
 // This file serves as the main entry point for all DyText Next.js integration tests
 // Individual test files contain the actual test implementations

@@ -36,4 +36,3 @@ describe("Error Handling", () => {
     expect(typeof result).toBe("object");
   });
 });
-

@@ -18,19 +18,19 @@ describe("State Management", () => {
 
   it("should reset state correctly", async () => {
     await initDytext(TEST_TOKEN);
-    
+
     resetConfig();
 
     // Should throw error after reset
     await expect(getDytext()).rejects.toThrow(
-      "DyText library must be initialized before use"
+      "DyText library must be initialized before use",
     );
   });
 
   it("should allow re-initialization after reset", async () => {
     await initDytext(TEST_TOKEN);
     resetConfig();
-    
+
     const result = await initDytext(TEST_TOKEN);
 
     expect(result.initialized).toBe(true);
@@ -39,13 +39,12 @@ describe("State Management", () => {
   it("should clear cache on reset", async () => {
     await initDytext(TEST_TOKEN);
     await getDytext("*"); // Cache the result
-    
+
     resetConfig();
     await initDytext(TEST_TOKEN);
-    
+
     // Should fetch fresh data (not throw error)
     const result = await getDytext("*");
     expect(result).toBeDefined();
   });
 });
-

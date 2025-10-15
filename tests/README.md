@@ -22,21 +22,25 @@ tests/
 ## Running Tests
 
 ### Run all tests
+
 ```bash
 npm test
 ```
 
 ### Run specific test file
+
 ```bash
 npm test initialization
 ```
 
 ### Run tests in watch mode
+
 ```bash
 npm run test:watch
 ```
 
 ### Run tests with coverage
+
 ```bash
 npm run test:coverage
 ```
@@ -44,50 +48,66 @@ npm run test:coverage
 ## Test Categories
 
 ### 1. Initialization Tests (4 tests)
+
 Tests for library initialization, configuration, and setup.
+
 - Basic initialization
 - Initialization with options
 - Multiple initialization prevention
 - Pre-initialization error handling
 
 ### 2. Environment Variable Tests (3 tests)
+
 Tests for environment variable-based initialization.
+
 - Initialize from `DYTEXT_CLIENT_TOKEN`
 - Token priority (explicit vs environment)
 - Missing token error handling
 
 ### 3. Token Validation Tests (4 tests)
+
 Tests for token format validation and parsing.
+
 - Invalid token formats
 - Missing components
 - Correct token parsing
 
 ### 4. Data Fetching Tests (7 tests)
+
 Tests for data retrieval with various path patterns.
+
 - Wildcard fetching (`*`)
 - Specific model fetching
 - Dotted path navigation
 - Non-existent path handling
 
 ### 5. Caching Tests (2 tests)
+
 Tests for caching behavior and performance.
+
 - Module-level caching
 - Wildcard result caching
 
 ### 6. State Management Tests (3 tests)
+
 Tests for state reset and re-initialization.
+
 - State reset
 - Re-initialization after reset
 - Cache clearing on reset
 
 ### 7. Error Handling Tests (3 tests)
+
 Tests for error scenarios and edge cases.
+
 - API error handling
 - Empty path handling
 - Undefined path handling
 
 ### 8. Concurrent Operations Tests (2 tests)
+
 Tests for concurrent calls and race conditions.
+
 - Concurrent data fetching
 - Concurrent initialization
 
@@ -130,10 +150,10 @@ describe("Your Test Category", () => {
   it("should do something specific", async () => {
     // Arrange
     await initDytext(TEST_TOKEN);
-    
+
     // Act
     const result = await getDytext("some-path");
-    
+
     // Assert
     expect(result).toBeDefined();
   });
@@ -166,6 +186,7 @@ cd e2e/test-apps/{framework-name}
 ### 2. Add Test Files
 
 Follow the Next.js pattern:
+
 ```
 e2e/test-apps/{framework-name}/
 ├── test/
@@ -181,16 +202,19 @@ e2e/test-apps/{framework-name}/
 ### 3. Update Documentation
 
 **a) Add badge to main README.md:**
+
 ```markdown
 [![framework](https://img.shields.io/badge/framework-XX%20tests-brightgreen.svg)](./e2e/test-apps/framework)
 ```
 
 **b) Add to Test Summary table:**
+
 ```markdown
 | **Framework E2E** | XX | Framework integration tests | ✅ |
 ```
 
 **c) Add section under E2E Tests:**
+
 ```markdown
 ##### Framework Name (XX tests) ✅
 
@@ -202,6 +226,7 @@ npm run test:e2e:framework
 ### 4. Add NPM Script
 
 In root `package.json`:
+
 ```json
 {
   "scripts": {
@@ -240,4 +265,3 @@ npm install dytext@file:../../.. @testing-library/react @testing-library/jest-do
 # 5. Add npm script:
 # "test:e2e:react": "cd e2e/test-apps/react && npm install && npm test"
 ```
-

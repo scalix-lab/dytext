@@ -78,4 +78,3 @@ describe("Data Fetching", () => {
     expect(result).toBeUndefined();
   });
 });
-

@@ -18,19 +18,19 @@ describe("Token Validation", () => {
 
   it("should throw error for invalid token format (no dot)", async () => {
     await expect(initDytext("invalid-token-no-dot")).rejects.toThrow(
-      "Invalid dytext_client_token format"
+      "Invalid dytext_client_token format",
     );
   });
 
   it("should throw error for invalid token format (missing projectId)", async () => {
     await expect(initDytext(".token-only")).rejects.toThrow(
-      "Invalid dytext_client_token format"
+      "Invalid dytext_client_token format",
     );
   });
 
   it("should throw error for invalid token format (missing token)", async () => {
     await expect(initDytext("projectid.")).rejects.toThrow(
-      "Invalid dytext_client_token format"
+      "Invalid dytext_client_token format",
     );
   });
 
@@ -38,7 +38,8 @@ describe("Token Validation", () => {
     const result = await initDytext(TEST_TOKEN);
 
     expect(result.projectId).toBe("debuging");
-    expect(result.token).toBe("a1ec81ad309a04700e10d377a2663641d40890ecfa64f96ee4c2cc5942c4cec2");
+    expect(result.token).toBe(
+      "a1ec81ad309a04700e10d377a2663641d40890ecfa64f96ee4c2cc5942c4cec2",
+    );
   });
 });
-

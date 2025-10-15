@@ -41,4 +41,3 @@ describe("Caching Behavior", () => {
     expect(result1).toEqual(result2);
   });
 });
-

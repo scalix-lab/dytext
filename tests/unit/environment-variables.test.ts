@@ -36,8 +36,7 @@ describe("Environment Variable Initialization", () => {
 
   it("should throw error when no token provided and no environment variable", async () => {
     await expect(initDytext()).rejects.toThrow(
-      "dytext_client_token is required"
+      "dytext_client_token is required",
     );
   });
 });
-

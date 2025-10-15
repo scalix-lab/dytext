@@ -42,9 +42,8 @@ describe("Concurrent Operations", () => {
 
     const results = await Promise.all(promises);
 
-    results.forEach(result => {
+    results.forEach((result) => {
       expect(result.initialized).toBe(true);
     });
   });
 });
-

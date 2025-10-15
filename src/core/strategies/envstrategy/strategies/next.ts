@@ -5,7 +5,10 @@ export class NextEnvStrategy implements EnvStrategy {
   getToken(): string | undefined {
     if (typeof process === "undefined" || !process.env) return undefined;
     // Check DYTEXT_CLIENT_TOKEN first (standard), then Next.js specific NEXT_PUBLIC_DYTEXT_CLIENT_TOKEN
-    return process.env.DYTEXT_CLIENT_TOKEN || process.env.NEXT_PUBLIC_DYTEXT_CLIENT_TOKEN;
+    return (
+      process.env.DYTEXT_CLIENT_TOKEN ||
+      process.env.NEXT_PUBLIC_DYTEXT_CLIENT_TOKEN
+    );
   }
 
   getConfig(): Partial<DytextConfig> {

@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { initDytext, getDytext } from 'dytext';
+import { useEffect, useState } from "react";
+import { initDytext, getDytext } from "dytext";
 
-const TEST_TOKEN = "debuging.a1ec81ad309a04700e10d377a2663641d40890ecfa64f96ee4c2cc5942c4cec2";
+const TEST_TOKEN =
+  "debuging.a1ec81ad309a04700e10d377a2663641d40890ecfa64f96ee4c2cc5942c4cec2";
 
 export default function Home() {
   const [data, setData] = useState<any>(null);
@@ -15,12 +16,12 @@ export default function Home() {
       try {
         // Initialize DyText
         await initDytext(TEST_TOKEN);
-        
+
         // Fetch data
-        const result = await getDytext('*');
+        const result = await getDytext("*");
         setData(result);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error occurred');
+        setError(err instanceof Error ? err.message : "Unknown error occurred");
       } finally {
         setIsLoading(false);
       }
@@ -36,9 +37,7 @@ export default function Home() {
   return (
     <main>
       <h1>DyText Next.js Test Page</h1>
-      <pre data-testid="dytext-data">
-        {JSON.stringify(data, null, 2)}
-      </pre>
+      <pre data-testid="dytext-data">{JSON.stringify(data, null, 2)}</pre>
     </main>
   );
 }
