@@ -7,7 +7,6 @@
 
 A lightweight TypeScript library for content management with dotted path access and caching. Perfect for static websites, blogs, and dynamic content applications.
 
-
 ## Features
 
 - 🔑 **Client Token Authentication** - Secure API access with client tokens
@@ -51,7 +50,9 @@ const allData = await getDytext("*");
 const productCatalog = await getDytext("product_catalog");
 
 // Fetch nested data with dotted paths
-const productName = await getDytext("product_catalog.fields.0.field_json.value",);
+const productName = await getDytext(
+  "product_catalog.fields.0.field_json.value",
+);
 ```
 
 ### 3. Framework-Specific Setup
