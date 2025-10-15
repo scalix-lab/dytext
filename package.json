@@ -1,9 +1,9 @@
 {
   "name": "dytext",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "description": "Simple, powerful dynamic text management for modern web applications",
-  "main": "dist/dytext.js",
+  "main": "dist/dytext.cjs",
   "module": "dist/dytext.esm.js",
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
@@ -11,7 +11,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/dytext.esm.js",
-      "require": "./dist/dytext.js"
+      "require": "./dist/dytext.cjs"
     }
   },
   "files": [
@@ -39,10 +39,15 @@
   "author": "Prafful Suthar",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/plugin-syntax-import-meta": "^7.10.4",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-typescript": "^7.27.1",
     "@types/jest": "^30.0.0",
     "@types/prettier": "^2.7.3",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
+    "babel-jest": "^30.2.0",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

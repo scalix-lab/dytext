@@ -6,6 +6,7 @@ import { ValidationError } from "../errors/errors";
 import { dytextCache } from "../state/cache";
 import { DytextResolver } from "./resolver/resolver";
 import { registry } from "./strategies/envstrategy/EnvStrategy";
+import "./strategies/envstrategy/strategies"; // Import to register strategies
 import { ConfigManager } from "../config/configManager";
 import { ResolvedValue } from "../types/results";
 

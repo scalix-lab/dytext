@@ -5,6 +5,8 @@ export default {
   testMatch: ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
   collectCoverageFrom: ["src/**/*.ts", "!src/**/*.d.ts"],
   transform: {
+    // Use Babel for Vite-specific files to handle import.meta
+    ".*vite.*\\.ts$": ["babel-jest"],
     "^.+\\.tsx?$": [
       "ts-jest",
       {
