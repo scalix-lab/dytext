@@ -8,7 +8,6 @@
 A lightweight TypeScript library for content management with dotted path access and caching. Perfect for static websites, blogs, and dynamic content applications.
 
 
-
 ## Features
 
 - 🔑 **Client Token Authentication** - Secure API access with client tokens
@@ -43,9 +42,7 @@ npm install dytext
 import { initDytext, getDytext } from "dytext";
 
 // Initialize with your client token
-await initDytext({
-  clientToken: "your_client_token_here"
-});
+await initDytext("your_client_token_here");
 
 // Fetch all data
 const allData = await getDytext("*");
@@ -54,9 +51,7 @@ const allData = await getDytext("*");
 const productCatalog = await getDytext("product_catalog");
 
 // Fetch nested data with dotted paths
-const productName = await getDytext(
-  "product_catalog.fields.0.field_json.value",
-);
+const productName = await getDytext("product_catalog.fields.0.field_json.value",);
 ```
 
 ### 3. Framework-Specific Setup
