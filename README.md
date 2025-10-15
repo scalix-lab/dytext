@@ -5,7 +5,9 @@
 [![test coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](https://github.com/scalix-lab/dytext)
 [![tests](https://img.shields.io/badge/tests-19%2F19%20passing-brightgreen.svg)](https://github.com/scalix-lab/dytext)
 
-A lightweight TypeScript library for content management in static websites with dotted path access and caching.
+A lightweight TypeScript library for content management with dotted path access and caching. Perfect for static websites, blogs, and dynamic content applications.
+
+
 
 ## Features
 
@@ -24,12 +26,26 @@ npm install dytext
 
 ## Quick Start
 
+### 1. Get Your Token
+
+1. Go to [https://dytext.scalix.in/](https://dytext.scalix.in/)
+2. Sign up for an account
+3. Get your client token from the dashboard
+4. Create your content models
+
+### 2. Install and Use
+
+```bash
+npm install dytext
+```
+
 ```typescript
 import { initDytext, getDytext } from "dytext";
 
-// Initialize the library (generic example)
-// NOTE: For framework specific initialization (e.g., React, Vue), refer to the documentation.
-await initDytext();
+// Initialize with your client token
+await initDytext({
+  clientToken: "your_client_token_here"
+});
 
 // Fetch all data
 const allData = await getDytext("*");
@@ -42,6 +58,10 @@ const productName = await getDytext(
   "product_catalog.fields.0.field_json.value",
 );
 ```
+
+### 3. Framework-Specific Setup
+
+For Next.js, React, or other frameworks, the library automatically detects your environment and uses the appropriate configuration. See the [documentation](https://dytext.scalix.in/) for framework-specific examples.
 
 ## Development
 
