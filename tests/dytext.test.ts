@@ -35,10 +35,11 @@ describe("DyText Library Tests", () => {
       expect(result2.initialized).toBe(true);
     });
 
-    it("should throw error when getDytext is called before initialization", async () => {
-      await expect(getDytext()).rejects.toThrow(
-        "DyText library must be initialized before use. Call initDytext() first.",
-      );
+    it("should auto-initialize from environment when getDytext is called without init", async () => {
+      process.env.DYTEXT_CLIENT_TOKEN = TEST_TOKEN;
+      resetConfig();
+      const result = await getDytext("*");
+      expect(result).toBeDefined();
     });
   });
 

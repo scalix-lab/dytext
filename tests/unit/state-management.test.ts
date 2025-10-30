@@ -21,10 +21,8 @@ describe("State Management", () => {
 
     resetConfig();
 
-    // Should throw error after reset
-    await expect(getDytext()).rejects.toThrow(
-      "DyText library must be initialized before use",
-    );
+    // Should throw token-required error after reset when no env token is set
+    await expect(getDytext()).rejects.toThrow(/dytext_client_token is required/);
   });
 
   it("should allow re-initialization after reset", async () => {

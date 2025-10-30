@@ -104,9 +104,8 @@ export class DytextService {
 
   async get<T extends ResolvedValue>(path?: string): Promise<T> {
     if (!this.stateManager.isInitialized()) {
-      throw new Error(
-        "DyText library must be initialized before use. Call initDytext() first.",
-      );
+      // Auto-initialize from environment (or existing config) if possible
+      await this.initialize();
     }
     return this.resolver.resolve<T>(path || "*");
   }
