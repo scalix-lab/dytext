@@ -179,7 +179,7 @@ describe("DyText Initialization Patterns", () => {
   });
 
   describe("Initialization Requirements", () => {
-    it("should fail without explicit initialization even with environment variable set", async () => {
+    it("should auto-initialize when environment variable is set (no manual init)", async () => {
       // Set environment variable but don't call initDytext
       process.env.DYTEXT_CLIENT_TOKEN = TEST_TOKEN;
 
@@ -188,17 +188,22 @@ describe("DyText Initialization Patterns", () => {
       await waitFor(
         () => {
           const loadingElement = screen.queryByTestId("env-loading");
-          const errorElement = screen.queryByTestId("env-error");
-          expect(loadingElement === null || errorElement !== null).toBe(true);
+          const componentElement = screen.queryByTestId("env-component");
+          expect(loadingElement === null || componentElement !== null).toBe(
+            true,
+          );
         },
-        { timeout: 5000 },
+        { timeout: 10000 },
       );
 
-      // Should show error about initialization being required
-      expect(screen.getByTestId("env-error")).toBeInTheDocument();
-      expect(screen.getByTestId("env-error").textContent).toContain(
-        "initialized",
+      // Should render successfully using env-based auto initialization
+      expect(screen.getByTestId("env-component")).toBeInTheDocument();
+      expect(screen.queryByTestId("env-error")).toBeNull();
+      expect(screen.getByTestId("env-title")).toHaveTextContent(
+        "Environment Variable Initialization",
       );
+      expect(screen.getByTestId("env-models-count")).toBeInTheDocument();
+      expect(screen.getByTestId("env-models-list")).toBeInTheDocument();
     });
 
     it("should work with explicit token initialization", async () => {
