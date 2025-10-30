@@ -48,6 +48,8 @@ describe("Library Initialization", () => {
   });
 
   it("should throw a token-required error when no env token is set", async () => {
-    await expect(getDytext()).rejects.toThrow(/dytext_client_token is required/);
+    await expect(getDytext()).rejects.toThrow(
+      /dytext_client_token is required/,
+    );
   });
 });
