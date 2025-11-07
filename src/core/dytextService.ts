@@ -9,7 +9,6 @@ import "./strategies/envstrategy/strategies"; // Import to register strategies
 import { ConfigManager } from "../config/configManager";
 import { ResolvedValue } from "../types/results";
 import { CacheManager } from "./cache/cacheManager";
-import { CacheManager } from "./cache/cacheManager";
 
 export class DytextService {
   private static instance: DytextService;
