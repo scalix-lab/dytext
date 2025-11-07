@@ -3,17 +3,18 @@ import { StateManager } from "../state/StateManager";
 import { DytextConfig } from "../types/config";
 import { parseClientToken } from "../utils/common";
 import { ValidationError } from "../errors/errors";
-import { dytextCache } from "../state/cache";
 import { DytextResolver } from "./resolver/resolver";
 import { registry } from "./strategies/envstrategy/EnvStrategy";
 import "./strategies/envstrategy/strategies"; // Import to register strategies
 import { ConfigManager } from "../config/configManager";
 import { ResolvedValue } from "../types/results";
+import { CacheManager } from "./cache/cacheManager";
 
 export class DytextService {
   private static instance: DytextService;
   private stateManager = StateManager.getInstance();
   private resolver = DytextResolver.getInstance();
+  private dytextCache =  CacheManager.getInstance().getCache();
   private initPromise: Promise<LibraryState> | null = null;
 
   private constructor() {}
@@ -75,7 +76,7 @@ export class DytextService {
       }
 
       // Reset cache
-      dytextCache.clear();
+      this.dytextCache.clear();
 
       // Parse and validate token
       const parsedToken = parseClientToken(token);
@@ -113,6 +114,6 @@ export class DytextService {
   reset(): void {
     this.stateManager.reset();
     this.initPromise = null;
-    dytextCache.clear();
+    this.dytextCache.clear();
   }
 }

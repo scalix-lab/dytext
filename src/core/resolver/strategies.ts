@@ -1,6 +1,6 @@
 import { DytextApiService } from "../../api/apiService";
-import { dytextCache } from "../../state/cache";
 import { DottedPath } from "../../utils/types";
+import { CacheManager } from "../cache/cacheManager";
 import { IResolutionStrategy } from "./interfaces";
 
 export class WildcardResolutionStrategy implements IResolutionStrategy {
@@ -9,7 +9,10 @@ export class WildcardResolutionStrategy implements IResolutionStrategy {
   }
 
   async resolve(path: DottedPath): Promise<any> {
+    const cacheManager = CacheManager.getInstance();
+    const dytextCache = cacheManager.getCache();
     const cached = dytextCache.get(path);
+
     if (cached !== undefined) return cached;
 
     const result = await DytextApiService.get("*");
@@ -34,6 +37,8 @@ export class ModuleResolutionStrategy implements IResolutionStrategy {
 
   async resolve(path: DottedPath): Promise<any> {
     const { model, subpath } = this.parsePath(path);
+    const cacheManager = CacheManager.getInstance();
+    const dytextCache = cacheManager.getCache();
 
     // Check if module is cached
     let moduleObj = dytextCache.get(model);

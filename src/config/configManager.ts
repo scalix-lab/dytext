@@ -3,6 +3,8 @@ import { ValidationError } from "../errors/errors";
 
 import { API, TIMEOUTS, DEFAULTS, buildApiUrl } from "../constants";
 import { deepMerge } from "../utils/common";
+import { CacheStrategy } from "../core/cache/interfaces";
+import { CacheManager } from "../core/cache/cacheManager";
 
 /**
  * Default API configuration
@@ -79,6 +81,26 @@ export class ConfigManager {
 
     // Deep merge configuration
     this.config = deepMerge(this.config, config) as Required<DytextConfig>;
+
+    // Update cache settings
+    const cacheManager = CacheManager.getInstance();
+
+    if (config.cache?.enabled) {
+      // Ensure cache is initialized before updating
+      if (!cacheManager.isCacheInitialized()) {
+        cacheManager.initialize({
+          strategy: CacheStrategy.MEMORY,
+          maxSize: 1000,
+          ttl: this.config.cache.ttl,
+        });
+      } else {
+        cacheManager.update({
+          strategy: CacheStrategy.MEMORY,
+          maxSize: 1000,
+          ttl: this.config.cache.ttl,
+        });
+      }
+    }
   }
 
   /**
