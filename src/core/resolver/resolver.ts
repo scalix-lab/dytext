@@ -18,7 +18,7 @@ export class DytextResolver implements IResolver {
   private strategies: IResolutionStrategy[] = [];
   private resolutionHistory: Map<string, DytextResolutionResult> = new Map();
   private stateManager = StateManager.getInstance();
-  private dytextCache =  CacheManager.getInstance().getCache();
+  private dytextCache = CacheManager.getInstance().getCache();
 
   private constructor() {
     // Register default strategies
@@ -36,7 +36,7 @@ export class DytextResolver implements IResolver {
   private _trackResolution(
     path: string,
     value: ResolvedValue,
-    fromCache: boolean,
+    fromCache: boolean
   ): void {
     this.resolutionHistory.set(path, {
       value,
@@ -51,12 +51,12 @@ export class DytextResolver implements IResolver {
   }
 
   async resolve<T extends ResolvedValue = ModelData>(
-    path: DottedPath,
+    path: DottedPath
   ): Promise<T> {
     // First check initialization
     if (!this.stateManager.isInitialized()) {
       throw new Error(
-        "DyText library must be initialized before use. Call initDytext() first.",
+        "DyText library must be initialized before use. Call initDytext() first."
       );
     }
 
@@ -66,7 +66,7 @@ export class DytextResolver implements IResolver {
 
       if (!strategy) {
         throw new ResolutionError(
-          `No resolution strategy found for path: ${path}`,
+          `No resolution strategy found for path: ${path}`
         );
       }
 
@@ -74,7 +74,11 @@ export class DytextResolver implements IResolver {
 
       // Track metadata internally without exposing it in the return value
       if (result !== undefined) {
-        this._trackResolution(path, result, result === this.dytextCache.get(path));
+        this._trackResolution(
+          path,
+          result,
+          result === this.dytextCache.get(path)
+        );
       }
 
       return result as T;
@@ -85,7 +89,7 @@ export class DytextResolver implements IResolver {
 
       throw new ResolutionError(
         `Failed to resolve path: ${path}`,
-        error instanceof Error ? error.message : error,
+        error instanceof Error ? error.message : error
       );
     }
   }

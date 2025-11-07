@@ -16,7 +16,7 @@ const dytext = DytextService.getInstance();
  */
 export async function initDytext(
   dytextClientToken?: string,
-  userConfig?: DytextConfig,
+  userConfig?: DytextConfig
 ): Promise<DytextInitResult> {
   return dytext.initialize(dytextClientToken, userConfig);
 }

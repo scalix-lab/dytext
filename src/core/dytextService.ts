@@ -14,7 +14,7 @@ export class DytextService {
   private static instance: DytextService;
   private stateManager = StateManager.getInstance();
   private resolver = DytextResolver.getInstance();
-  private dytextCache =  CacheManager.getInstance().getCache();
+  private dytextCache = CacheManager.getInstance().getCache();
   private initPromise: Promise<LibraryState> | null = null;
 
   private constructor() {}
@@ -48,7 +48,7 @@ export class DytextService {
 
   async initialize(
     dytextClientToken?: string,
-    userConfig?: DytextConfig,
+    userConfig?: DytextConfig
   ): Promise<LibraryState> {
     // If already initialized, return current state
     if (this.stateManager.isInitialized()) {
@@ -71,7 +71,7 @@ export class DytextService {
 
       if (!token) {
         throw new ValidationError(
-          'dytext_client_token is required. Set it via environment variable or pass to initDytext("YOUR_TOKEN")',
+          'dytext_client_token is required. Set it via environment variable or pass to initDytext("YOUR_TOKEN")'
         );
       }
 

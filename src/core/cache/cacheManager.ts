@@ -29,18 +29,18 @@ export class CacheManager {
       onError: (error) => console.error("[DyText] Cache error:", error),
     });
     this.isInitialized = true;
-    
+
     return this.cache;
   }
 
   update(config: Partial<ICacheConfig>): ICache {
     const newConfig = { ...this.currentConfig, ...config } as ICacheConfig;
-    
+
     this.cache = CacheFactory.createCache(newConfig, {
       onError: (error) => console.error("[DyText] Cache error:", error),
     });
     this.currentConfig = newConfig;
-    
+
     return this.cache;
   }
 
@@ -57,7 +57,7 @@ export class CacheManager {
   }
 
   clear(): void {
-    if (this.cache && typeof this.cache.clear === 'function') {
+    if (this.cache && typeof this.cache.clear === "function") {
       this.cache.clear();
     }
   }
