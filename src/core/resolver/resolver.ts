@@ -12,6 +12,7 @@ import {
 } from "../../types/results";
 import { DytextBaseError, ResolutionError } from "../../errors/errors";
 import { CacheManager } from "../cache/cacheManager";
+import { CacheManager } from "../cache/cacheManager";
 
 export class DytextResolver implements IResolver {
   private static instance: DytextResolver;
