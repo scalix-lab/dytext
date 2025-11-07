@@ -11,13 +11,14 @@ import {
   ModelData,
 } from "../../types/results";
 import { DytextBaseError, ResolutionError } from "../../errors/errors";
-import { dytextCache } from "../../state/cache";
+import { CacheManager } from "../cache/cacheManager";
 
 export class DytextResolver implements IResolver {
   private static instance: DytextResolver;
   private strategies: IResolutionStrategy[] = [];
   private resolutionHistory: Map<string, DytextResolutionResult> = new Map();
   private stateManager = StateManager.getInstance();
+  private dytextCache =  CacheManager.getInstance().getCache();
 
   private constructor() {
     // Register default strategies
@@ -73,7 +74,7 @@ export class DytextResolver implements IResolver {
 
       // Track metadata internally without exposing it in the return value
       if (result !== undefined) {
-        this._trackResolution(path, result, result === dytextCache.get(path));
+        this._trackResolution(path, result, result === this.dytextCache.get(path));
       }
 
       return result as T;
