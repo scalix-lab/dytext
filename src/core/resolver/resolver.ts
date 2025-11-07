@@ -36,7 +36,7 @@ export class DytextResolver implements IResolver {
   private _trackResolution(
     path: string,
     value: ResolvedValue,
-    fromCache: boolean
+    fromCache: boolean,
   ): void {
     this.resolutionHistory.set(path, {
       value,
@@ -51,12 +51,12 @@ export class DytextResolver implements IResolver {
   }
 
   async resolve<T extends ResolvedValue = ModelData>(
-    path: DottedPath
+    path: DottedPath,
   ): Promise<T> {
     // First check initialization
     if (!this.stateManager.isInitialized()) {
       throw new Error(
-        "DyText library must be initialized before use. Call initDytext() first."
+        "DyText library must be initialized before use. Call initDytext() first.",
       );
     }
 
@@ -66,7 +66,7 @@ export class DytextResolver implements IResolver {
 
       if (!strategy) {
         throw new ResolutionError(
-          `No resolution strategy found for path: ${path}`
+          `No resolution strategy found for path: ${path}`,
         );
       }
 
@@ -77,7 +77,7 @@ export class DytextResolver implements IResolver {
         this._trackResolution(
           path,
           result,
-          result === this.dytextCache.get(path)
+          result === this.dytextCache.get(path),
         );
       }
 
@@ -89,7 +89,7 @@ export class DytextResolver implements IResolver {
 
       throw new ResolutionError(
         `Failed to resolve path: ${path}`,
-        error instanceof Error ? error.message : error
+        error instanceof Error ? error.message : error,
       );
     }
   }
