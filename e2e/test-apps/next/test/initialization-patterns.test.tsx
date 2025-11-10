@@ -258,7 +258,7 @@ describe("DyText Initialization Patterns", () => {
       // Should show error about initialization
       expect(screen.getByTestId("no-init-error")).toBeInTheDocument();
       expect(screen.getByTestId("no-init-error").textContent).toContain(
-        "initialized",
+        "dytext_client_token is required",
       );
     });
   });
