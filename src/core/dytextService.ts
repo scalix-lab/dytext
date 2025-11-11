@@ -77,7 +77,6 @@ export class DytextService {
 
       // Reset cache
       this.dytextCache.clear();
-      this.dytextCache.clear();
 
       // Parse and validate token
       const parsedToken = parseClientToken(token);
@@ -115,7 +114,6 @@ export class DytextService {
   reset(): void {
     this.stateManager.reset();
     this.initPromise = null;
-    this.dytextCache.clear();
     this.dytextCache.clear();
   }
 }

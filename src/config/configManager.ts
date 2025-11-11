@@ -82,11 +82,9 @@ export class ConfigManager {
     // Deep merge configuration
     this.config = deepMerge(this.config, config) as Required<DytextConfig>;
 
-    // Update cache settings
-    const cacheManager = CacheManager.getInstance();
-
     if (config.cache?.enabled) {
       // Ensure cache is initialized before updating
+      const cacheManager = CacheManager.getInstance();
       if (!cacheManager.isCacheInitialized()) {
         cacheManager.initialize({
           strategy: CacheStrategy.MEMORY,
