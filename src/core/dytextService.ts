@@ -8,13 +8,12 @@ import { registry } from "./strategies/envstrategy/EnvStrategy";
 import "./strategies/envstrategy/strategies"; // Import to register strategies
 import { ConfigManager } from "../config/configManager";
 import { ResolvedValue } from "../types/results";
-import { CacheManager } from "./cache/cacheManager";
+import { dytextCache } from "../state/cache";
 
 export class DytextService {
   private static instance: DytextService;
   private stateManager = StateManager.getInstance();
   private resolver = DytextResolver.getInstance();
-  private dytextCache = CacheManager.getInstance().getCache();
   private initPromise: Promise<LibraryState> | null = null;
 
   private constructor() {}
@@ -76,7 +75,7 @@ export class DytextService {
       }
 
       // Reset cache
-      this.dytextCache.clear();
+      dytextCache.clear();
 
       // Parse and validate token
       const parsedToken = parseClientToken(token);
@@ -114,6 +113,6 @@ export class DytextService {
   reset(): void {
     this.stateManager.reset();
     this.initPromise = null;
-    this.dytextCache.clear();
+    dytextCache.clear();
   }
 }

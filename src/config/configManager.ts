@@ -4,7 +4,7 @@ import { ValidationError } from "../errors/errors";
 import { API, TIMEOUTS, DEFAULTS, buildApiUrl } from "../constants";
 import { deepMerge } from "../utils/common";
 import { CacheStrategy } from "../core/cache/interfaces";
-import { CacheManager } from "../core/cache/cacheManager";
+import { dytextCache } from "../state/cache";
 
 /**
  * Default API configuration
@@ -84,15 +84,14 @@ export class ConfigManager {
 
     if (config.cache?.enabled) {
       // Ensure cache is initialized before updating
-      const cacheManager = CacheManager.getInstance();
-      if (!cacheManager.isCacheInitialized()) {
-        cacheManager.initialize({
+      if (!dytextCache.isCacheInitialized()) {
+        dytextCache.initialize({
           strategy: CacheStrategy.MEMORY,
           maxSize: 1000,
           ttl: this.config.cache.ttl,
         });
       } else {
-        cacheManager.update({
+        dytextCache.update({
           strategy: CacheStrategy.MEMORY,
           maxSize: 1000,
           ttl: this.config.cache.ttl,

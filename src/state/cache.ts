@@ -1,3 +1,3 @@
-// import { CacheManager } from "../core/cache/cacheManager";
+import { CacheManager } from "../core/cache/cacheManager";
 
-// export const dytextCache = CacheManager.getInstance().getCache();
+export const dytextCache = CacheManager.getInstance();
