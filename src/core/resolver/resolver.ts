@@ -18,6 +18,7 @@ export class DytextResolver implements IResolver {
   private strategies: IResolutionStrategy[] = [];
   private resolutionHistory: Map<string, DytextResolutionResult> = new Map();
   private stateManager = StateManager.getInstance();
+  private cache = dytextCache.getCache();
 
   private constructor() {
     // Register default strategies
@@ -73,7 +74,7 @@ export class DytextResolver implements IResolver {
 
       // Track metadata internally without exposing it in the return value
       if (result !== undefined) {
-        this._trackResolution(path, result, result === dytextCache.get(path));
+        this._trackResolution(path, result, result === this.cache.get(path));
       }
 
       return result as T;

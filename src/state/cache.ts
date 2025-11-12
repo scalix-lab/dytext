@@ -1,4 +1,3 @@
-import { defaultCache } from "../core/cache/factory";
+import { CacheManager } from "../core/cache/cacheManager";
 
-// Re-export the default cache instance
-export const dytextCache = defaultCache;
+export const dytextCache = CacheManager.getInstance();

@@ -9,11 +9,13 @@ export class WildcardResolutionStrategy implements IResolutionStrategy {
   }
 
   async resolve(path: DottedPath): Promise<any> {
-    const cached = dytextCache.get(path);
+    const cache = dytextCache.getCache();
+    const cached = cache.get(path);
+
     if (cached !== undefined) return cached;
 
     const result = await DytextApiService.get("*");
-    dytextCache.set(path, result);
+    cache.set(path, result);
     return result;
   }
 }
@@ -34,13 +36,14 @@ export class ModuleResolutionStrategy implements IResolutionStrategy {
 
   async resolve(path: DottedPath): Promise<any> {
     const { model, subpath } = this.parsePath(path);
+    const cache = dytextCache.getCache();
 
     // Check if module is cached
-    let moduleObj = dytextCache.get(model);
+    let moduleObj = cache.get(model);
 
     if (moduleObj === undefined) {
       moduleObj = await DytextApiService.get(model);
-      dytextCache.set(model, moduleObj);
+      cache.set(model, moduleObj);
     }
 
     if (!moduleObj) {

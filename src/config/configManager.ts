@@ -3,6 +3,8 @@ import { ValidationError } from "../errors/errors";
 
 import { API, TIMEOUTS, DEFAULTS, buildApiUrl } from "../constants";
 import { deepMerge } from "../utils/common";
+import { CacheStrategy } from "../core/cache/interfaces";
+import { dytextCache } from "../state/cache";
 
 /**
  * Default API configuration
@@ -79,6 +81,23 @@ export class ConfigManager {
 
     // Deep merge configuration
     this.config = deepMerge(this.config, config) as Required<DytextConfig>;
+
+    if (config.cache?.enabled) {
+      // Ensure cache is initialized before updating
+      if (!dytextCache.isCacheInitialized()) {
+        dytextCache.initialize({
+          strategy: CacheStrategy.MEMORY,
+          maxSize: 1000,
+          ttl: this.config.cache.ttl,
+        });
+      } else {
+        dytextCache.update({
+          strategy: CacheStrategy.MEMORY,
+          maxSize: 1000,
+          ttl: this.config.cache.ttl,
+        });
+      }
+    }
   }
 
   /**

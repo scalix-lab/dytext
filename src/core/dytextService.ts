@@ -3,12 +3,12 @@ import { StateManager } from "../state/StateManager";
 import { DytextConfig } from "../types/config";
 import { parseClientToken } from "../utils/common";
 import { ValidationError } from "../errors/errors";
-import { dytextCache } from "../state/cache";
 import { DytextResolver } from "./resolver/resolver";
 import { registry } from "./strategies/envstrategy/EnvStrategy";
 import "./strategies/envstrategy/strategies"; // Import to register strategies
 import { ConfigManager } from "../config/configManager";
 import { ResolvedValue } from "../types/results";
+import { dytextCache } from "../state/cache";
 
 export class DytextService {
   private static instance: DytextService;
