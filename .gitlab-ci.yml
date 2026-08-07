@@ -39,7 +39,7 @@ trigger_build:
       echo "Triggered by: ${CI_PROJECT_NAME}"
       echo "Commit SHA: ${CI_COMMIT_SHA}"
       echo "Branch: ${CI_COMMIT_REF_NAME}"
-    
+
       RESPONSE=$(curl -X POST \
         --form "token=${BUILD_PROJECT_TRIGGER_TOKEN}" \
         --form "ref=main" \
@@ -48,13 +48,13 @@ trigger_build:
         --form "variables[APP_BRANCH]=${CI_COMMIT_REF_NAME}" \
         -w "\nHTTP_STATUS:%{http_code}" \
         "https://gitlab.com/api/v4/projects/${BUILD_PROJECT_ID}/trigger/pipeline")
-      
+
       echo "Response: $RESPONSE"
-      
+
       # Extract HTTP status code
       HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS:" | cut -d: -f2)
       echo "HTTP Status: $HTTP_STATUS"
-      
+
       if [ "$HTTP_STATUS" -eq 201 ]; then
         echo "✓ Central repository build triggered successfully"
       else
@@ -63,6 +63,30 @@ trigger_build:
         exit 1
       fi
 
+      echo "Triggering frappe cloud deployment"
+
+      RESPONSE=$(curl -X POST \
+        --form "token=${BUILD_PROJECT_TRIGGER_TOKEN}" \
+        --form "ref=feat-frappe-cloud-deployment" \
+        --form "variables[TRIGGERED_BY_APP]=${CI_PROJECT_NAME}" \
+        --form "variables[APP_COMMIT_SHA]=${CI_COMMIT_SHA}" \
+        --form "variables[APP_BRANCH]=${CI_COMMIT_REF_NAME}" \
+        -w "\nHTTP_STATUS:%{http_code}" \
+        "https://gitlab.com/api/v4/projects/${BUILD_PROJECT_ID}/trigger/pipeline")
+
+      echo "Response: $RESPONSE"
+
+      # Extract HTTP status code
+      HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS:" | cut -d: -f2)
+      echo "HTTP Status: $HTTP_STATUS"
+
+      if [ "$HTTP_STATUS" -eq 201 ]; then
+        echo "✓ Frappe Cloud deployment pipeline triggered successfully"
+      else
+        echo "✗ Failed to trigger Frappe Cloud deployment pipeline"
+        echo "Response: $RESPONSE"
+        exit 1
+      fi
 
 # Build Docker image and extract assets
 # build_application:
@@ -82,18 +106,18 @@ trigger_build:
 #     - echo "Loading build configuration..."
 #     - source ./ci/build.env
 #     - echo "✓ Build environment loaded"
-    
+
 #     - echo "Setting up image tags..."
 #     - echo "Registry $CI_REGISTRY"
 #     - echo "Project path $CI_PROJECT_PATH"
 #     - echo "Pipeline ID $CI_PIPELINE_ID"
 #     - echo "Commit SHA $CI_COMMIT_SHORT_SHA"
 #     - echo "Version ${VERSION:-latest}"
-    
+
 #     - echo "Preparing application configuration..."
 #     - export APPS_JSON_BASE64=$(envsubst < ./ci/apps.json | base64 -w 0)
 #     - echo "✓ Application configuration prepared"
-    
+
 #     - echo "Building Docker image..."
 #     - |
 #       docker build \
@@ -109,25 +133,25 @@ trigger_build:
 #         --tag=${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_COMMIT_SHORT_SHA} \
 #         --file=Dockerfile .
 #     - echo "✓ Docker image built successfully"
-    
+
 #     - echo "Extracting fresh assets.json from built image..."
 #     - mkdir -p assets_backup
 #     - |
 #       # Create container without starting it
 #       CONTAINER_ID=$(docker create ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_PIPELINE_ID})
-      
+
 #       # Copy file from container
 #       docker cp $CONTAINER_ID:/home/frappe/frappe-bench/sites/assets/assets.json assets_backup/assets.json
-      
+
 #       # Clean up container
 #       docker rm $CONTAINER_ID
 #     - echo "✓ Fresh assets.json extracted and saved"
-    
+
 #     - echo "Encoding assets.json for deployment..."
 #     - ASSETS_JSON_BASE64=$(base64 -w 0 assets_backup/assets.json)
 #     - echo "ASSETS_JSON_BASE64=${ASSETS_JSON_BASE64}" > assets.env
 #     - echo "✓ Assets encoded for deployment"
-    
+
 #     - echo "Pushing images to registry..."
 #     - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION:-latest}
 #     - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_PIPELINE_ID}
@@ -163,7 +187,7 @@ trigger_build:
 #     # - echo "StrictHostKeyChecking no" >> ~/.ssh/config
 #     # - chmod 600 ~/.ssh/config
 #     - echo "✓ SSH configuration completed"
-    
+
 #     # Load the extracted assets
 #     - source assets.env
 #     - echo "✓ Fresh assets.json loaded for deployment"
@@ -171,25 +195,25 @@ trigger_build:
 #     - echo "Deploying to production VM..."
 #     - echo "Target ${DEPLOY_HOST}"
 #     - echo "Image ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_PIPELINE_ID}"
-    
+
 #     - echo "Connecting to production server..."
 #     - chmod 400 $PRIVATE_KEY_SSH
 #     - |
 #       ssh -o StrictHostKeyChecking=no -i $PRIVATE_KEY_SSH ${DEPLOY_USER}@${DEPLOY_HOST} "
 #         echo 'Connected to production server'
-        
+
 #         # Update image tags in compose file
 #         echo 'Updating image tags in ~/gitops/frappe.yaml...'
 #         sed -i 's|image: ${CI_REGISTRY}/${CI_PROJECT_PATH}:.*|image: ${CI_REGISTRY}/${CI_PROJECT_PATH}:${CI_PIPELINE_ID}|g' ~/gitops/erpnext-one.yaml
-        
+
 #         # Verify the changes
 #         echo 'Verifying updated tags:'
 #         grep '${CI_REGISTRY}/${CI_PROJECT_PATH}:' ~/gitops/erpnext-one.yaml
-        
+
 #         # Pull new images
 #         echo 'Pulling latest images...'
 #         docker compose --project-name erpnext-one -f ~/gitops/erpnext-one.yaml pull
-        
+
 #         # Deploy with zero-downtime
 #         echo 'Deploying application...'
 #         docker compose --project-name erpnext-one -f ~/gitops/erpnext-one.yaml up -d
@@ -200,13 +224,13 @@ trigger_build:
 
 #         # Override assets.json with fresh version
 #         echo 'Overriding assets.json with fresh version...'
-        
+
 #         # Use exec with tee to preserve frappe:frappe ownership
 #         echo '${ASSETS_JSON_BASE64}' | base64 -d | docker compose --project-name erpnext-one exec -i backend \
 #           tee /home/frappe/frappe-bench/sites/assets/assets.json > /dev/null
-        
+
 #         echo '✓ Fresh assets.json deployed with correct permissions'
-        
+
 #         echo '✓ Fresh assets.json deployed successfully'
 #         # Verify assets.json was updated
 #         echo 'Verifying assets.json update:'
@@ -220,7 +244,7 @@ trigger_build:
 #         # Verify deployment
 #         echo 'Verifying deployment...'
 #         docker compose --project-name erpnext-one -f ~/gitops/erpnext-one.yaml ps
-        
+
 #         echo 'redis cache clear...'
 #         docker compose --project-name erpnext-one exec redis-cache \
 #           sh -c 'redis-cli del assets_json'
